@@ -1,4 +1,14 @@
 {
-  "python.pythonPath": "venv\\Scripts\\python.exe",
-  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "python.pythonPath": "C:\\Program Files\\Python38\\python.exe",
+  "editor.formatOnSave": false,
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintPath": "pylint",
+  "python.linting.pylintArgs": ["W0614", "--load-plugins", "pylint_django"],
+  "python.venvPath": "${workspaceFolder}/env/bin/python3",
+  "python.linting.pycodestyleArgs": ["--ignore=E501"],
+  "files.exclude": {
+    "**/*.pyc": true
+  },
+  "python.linting.enabled": false
 }
