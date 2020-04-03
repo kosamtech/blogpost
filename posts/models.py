@@ -85,3 +85,11 @@ class Post(models.Model):
   def comment_count(self):
     return Comment.objects.filter(post=self).count()
 
+
+class Contact(models.Model):
+  username = models.CharField(max_length=100)
+  email = models.EmailField()
+  message = models.TextField()
+
+  def __str__(self):
+    return self.username

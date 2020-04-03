@@ -2,8 +2,27 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, Q
 from .models import Post, Author, PostView, AnonymousView
-from .forms import CommentForm, PostForm
+from .forms import CommentForm, PostForm, RegisterUser, ContactForm
 from marketing.models import SignUp
+from django.contrib import messages
+
+
+def register_view(request):
+  if request.user.is_authenticated:
+    return redirect("/")
+  else:
+    next = request.GET.get('next')
+    form = RegisterUser(request.POST or None)
+    if form.is_valid():
+      form.save()
+      if next:
+        return redirect(next)
+      return redirect('account_login')
+    
+    context = {
+      'form': form
+    }
+    return render(request, 'register.html', context)
 
 
 def get_author(user):
@@ -38,7 +57,7 @@ def index(request):
 def blog(request):
   category_count = get_category_count()
   most_recent = Post.objects.order_by('-timestamp')[:3]
-  post_list = Post.objects.all()
+  post_list = Post.objects.all().order_by('id')
   paginator = Paginator(post_list, 4)
   page_request_var = 'page'
   page = request.GET.get(page_request_var)
@@ -136,3 +155,18 @@ def post_delete(request, pk):
   post = get_object_or_404(Post, pk=pk)
   post.delete()
   return redirect('posts:blog')
+
+def contact(request):
+  form = ContactForm(request.POST or None)
+  if request.method == 'POST':
+    if form.is_valid():
+      form.save()
+      form = ContactForm()
+      messages.success(request, 'Your message has been sent')
+    else:
+      messages.warning(request, 'Please correct the errors below')
+
+  context = {
+    'form': form
+  }
+  return render(request, 'contact.html', context)
