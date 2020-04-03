@@ -150,3 +150,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'menubar': True,
     'statusbar': True
 }
+
+# Mailchimp
+MAILCHIMP_API_KEY = 'd5101d57774078ed8a495f758dda2df1-us19'
+MAILCHIMP_DATA_CENTER = 'us19'
+MAILCHIMP_EMAIL_LIST_ID = '30b08f2265'

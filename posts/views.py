@@ -5,6 +5,7 @@ from .models import Post, Author, PostView, AnonymousView
 from .forms import CommentForm, PostForm, RegisterUser, ContactForm
 from marketing.models import SignUp
 from django.contrib import messages
+from marketing.forms import EmailSignupForm
 
 
 def register_view(request):
@@ -40,7 +41,8 @@ def get_category_count():
 def index(request):
   featured = Post.objects.filter(featured=True)
   latest = Post.objects.order_by('-timestamp')[0:3]
-
+  form = EmailSignupForm()
+  
   if request.method == 'POST':
     email = request.POST['email']
     new_email = SignUp()
@@ -49,7 +51,8 @@ def index(request):
      
   context = {
     'object_list': featured,
-    'latest': latest
+    'latest': latest,
+    'form': form
   }
   return render(request, 'index.html', context)
 
